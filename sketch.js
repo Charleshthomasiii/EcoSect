@@ -1,7 +1,7 @@
 var creatures = [];
 function setup() {
   createCanvas(1200,900,);
-  for (var i = 0; i < 10; i++) {
+  for (var i = 0; i < 40; i++) {
     creatures.push( new CreatureThatAttracts(random(width), random(height)));
   }
 }
@@ -93,10 +93,10 @@ class CreatureThatAttracts {
     this.repulsed=0;
     this.noiseOffsetX = random(0,1000);
     this.noiseOffsetY = random(0,1000);
-    this.attractionZoneSize = 400;
+    this.attractionZoneSize = 500;
     this.repulsionZoneSize=140;
-    this.repulsionStrength=0.01;
-    this.attractionStrength=0.001;
+    this.repulsionStrength=0.03;
+    this.attractionStrength=0.0001;
     this.neighbors=0;
     this.repulseTime=60;
     this.dx=0;
