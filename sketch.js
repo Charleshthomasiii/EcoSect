@@ -90,23 +90,32 @@ class CreatureThatAttracts {
     this.y = y; 
     this.previousX=0;
     this.previousY=0;
+    this.repulsed=0;
     this.noiseOffsetX = random(0,1000);
     this.noiseOffsetY = random(0,1000);
     this.attractionZoneSize = 400;
-    this.repulsionZoneSize=200;
-    this.repulsionStrength=0.02;
+    this.repulsionZoneSize=140;
+    this.repulsionStrength=0.01;
     this.attractionStrength=0.001;
     this.neighbors=0;
+    this.repulseTime=60;
+    this.dx=0;
+    this.dy=0;
+    this.previousAngle=0;
   }
   setPrevious(){
     this.previousX=this.x;
     this.previousY=this.y;
   }
   moveAndDisplay() {
-    this.x += map( noise(this.noiseOffsetX), 0, 1, -1, 1);
-    this.y += map( noise(this.noiseOffsetY), 0, 1, -1, 1);
+    if (this.repulsed==0) {
+      this.dx += map( noise(this.noiseOffsetX), 0, 1, -1, 1);
+      this.dy += map( noise(this.noiseOffsetY), 0, 1, -1, 1);
+    }
     this.noiseOffsetX += 0.01;
     this.noiseOffsetY += 0.01;
+    this.x+=this.dx;
+    this.y+=this.dy;
     if(this.x>width){
       this.x=0
     }
@@ -126,6 +135,8 @@ class CreatureThatAttracts {
     this.rotateCreature();
     // draw the 'attraction zone' for the creature
      // ellipse(this.x, this.y, this.repulsionZoneSize, this.repulsionZoneSize);
+     this.dx=0;
+     this.dy=0;
   }
   rotateCreatureMouse(){
     push();
@@ -141,10 +152,6 @@ class CreatureThatAttracts {
       ang=ang+3.141592;
     }
     var c = -((ang));
-    if(cos(c)>0){
-      console.log("greater");
-      console.log(cos(c))
-    }
     translate(this.x, this.y);
     // console.log(c)
     //apply the final rotation
@@ -170,14 +177,19 @@ class CreatureThatAttracts {
       ang=ang+3.141592;
     }
     var c = -((ang));
-    if(cos(c)>0){
-      console.log("greater");
-      console.log(cos(c))
-    }
+
+
     translate(this.x, this.y);
     // console.log(c)
     //apply the final rotation
-    rotate(c);
+
+    if (this.repulsed==0) {
+      rotate(c);
+      this.previousAngle=c;
+    }
+    else{
+      rotate(this.previousAngle);
+    }
     ellipse(0, 0, 70, 70);  
     fill(0);
     ellipse(12,-12,17,17);
@@ -191,14 +203,14 @@ class CreatureThatAttracts {
     // see how far away we are from the other creatures
     var d = dist(this.x, this.y, otherCreature.x, otherCreature.y);
     // are we within the atraction zone?
-    if (d < this.attractionZoneSize/2) {
+    if (d < this.attractionZoneSize/2 && this.repulsed==0) {
       // move toward this creature a little bit
-      var dX = otherCreature.x - this.x;
-      var dY = otherCreature.y - this.y;
+      var change = otherCreature.x - this.x;
+      var change = otherCreature.y - this.y;
 
       // move 5% of the way to the new creature
-      this.x += dX * this.attractionStrength;
-      this.y += dY * this.attractionStrength;
+      this.dx += change * this.attractionStrength;
+      this.dy += change * this.attractionStrength;
       this.neighbors++;
     }
 
@@ -206,16 +218,24 @@ class CreatureThatAttracts {
   repulse(otherCreature) {
     // see how far away we are from the other creatures
     var d = dist(this.x, this.y, otherCreature.x, otherCreature.y);
+    var changeX;
+    var changeY;
     // are we within the atraction zone?
+    if (this.repulsed!=0) {
+      // this.dx -= changeX * this.repulsionStrength;
+      // this.dy -= changeY * this.repulsionStrength;
+      this.repulsed-=1;
+    }
     if (d < this.repulsionZoneSize/2) {
       // move toward this creature a little bit
-      var dX = otherCreature.x - this.x;
-      var dY = otherCreature.y - this.y;
+      changeX = otherCreature.x - this.x;
+      changeY = otherCreature.y - this.y;
 
       // move 5% of the way to the new creature
-      this.x -= dX * this.repulsionStrength;
-      this.y -= dY * this.repulsionStrength;
-      this.neighbors++;
+      this.dx -= changeX * this.repulsionStrength;
+      this.dy -= changeY * this.repulsionStrength;
+      this.repulsed=this.repulseTime;
+      //otherCreature.repulsed=this.repulseTime;
     }
   }
 }
