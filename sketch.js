@@ -2,20 +2,21 @@ var creatures = [];
 
 function preload(){
   dirt = loadImage("images/dirt.jpg");
+  bush= loadImage("images/bush.png")
 }
 function setup() {
-  createCanvas(1200,900,);
+  createCanvas(1300,600,);
   for (var i = 0; i < 40; i++) {
     creatures.push( new CreatureThatAttracts(random(width), random(height)));
   }
+  noiseDetail(24);
 }
 
 function draw() {
-  background(200);
   // tint(255, 127);
-  background(200,200,200,100);
   image(dirt,0,0,);
   image(dirt,dirt.width,0)
+  image(bush,0,0,90,70);
   for (var i = 0; i < creatures.length; i++) {
     creatures[i].setPrevious();
     // visit every other creature and see if we need to attract
@@ -94,6 +95,7 @@ function draw() {
 class CreatureThatAttracts {
 
   constructor(x,y) {
+    this.size=40;
     this.x = x;
     this.y = y; 
     this.previousX=0;
@@ -101,8 +103,9 @@ class CreatureThatAttracts {
     this.repulsed=0;
     this.noiseOffsetX = random(0,1000);
     this.noiseOffsetY = random(0,1000);
-    this.attractionZoneSize = 500;
-    this.repulsionZoneSize=140;
+    this.attractionZoneSize = 400;
+
+    this.repulsionZoneSize=this.size*2;
     this.repulsionStrength=0.02;
     this.attractionStrength=0.0001;
     this.neighbors=0;
@@ -165,10 +168,10 @@ class CreatureThatAttracts {
     // console.log(c)
     //apply the final rotation
     rotate(c);
-    ellipse(0, 0, 100, 100);  
+    ellipse(0, 0, this.size, this.size);  
     fill(0);
-    ellipse(15,-20,20,20);
-    ellipse(15,20,20,20);
+    ellipse(this.size/5.2,-this.size/5,this.size/5,this.size/5);
+    ellipse(this.size/5.2,-this.size/5,this.size/5,this.size/5);
     fill(229, 125, 34);
     // ellipse(50,50,30,30);
     pop();
@@ -183,9 +186,9 @@ class CreatureThatAttracts {
     var ang=Math.atan(result);
     ang=ang+3.14159;
     if (this.previousX<this.x) {
-      ang=ang+3.141592;
+      ang=ang+3.14159;
     }
-    var c = -((ang));
+    var c = -ang;
 
 
     translate(this.x, this.y);
@@ -200,21 +203,21 @@ class CreatureThatAttracts {
       rotate(this.previousAngle);
     }
 
-    ellipse(0, 0, 70, 70);  
+    ellipse(0, 0, this.size, this.size);  
     fill(0);
     if (this.blink==0) {
       if(random()<.0005){
-        this.blink=10;
+        this.blink=20;
       }
       else{
-        ellipse(12,-12,17,17);
-        ellipse(12,12,17,17);
+        ellipse(this.size/7,-this.size/7,this.size/5,this.size/5);
+        ellipse(this.size/7,this.size/7,this.size/5,this.size/5);
       }
     }
     if (this.blink>0) {
       this.blink-=1;
-      rect(12, 12, 4, 20);
-      rect(12, -12, 4, -20);
+      rect(this.size/7, this.size/7, this.size/20, this.size/6);
+      rect(this.size/7, -this.size/7, this.size/20, -this.size/6);
     }
 
     fill(229, 125, 34);
