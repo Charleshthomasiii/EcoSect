@@ -1,4 +1,8 @@
 var creatures = [];
+
+function preload(){
+  dirt = loadImage("images/dirt.jpg");
+}
 function setup() {
   createCanvas(1200,900,);
   for (var i = 0; i < 40; i++) {
@@ -7,7 +11,11 @@ function setup() {
 }
 
 function draw() {
-  background(0);
+  background(200);
+  // tint(255, 127);
+  background(200,200,200,100);
+  image(dirt,0,0,);
+  image(dirt,dirt.width,0)
   for (var i = 0; i < creatures.length; i++) {
     creatures[i].setPrevious();
     // visit every other creature and see if we need to attract
@@ -95,13 +103,14 @@ class CreatureThatAttracts {
     this.noiseOffsetY = random(0,1000);
     this.attractionZoneSize = 500;
     this.repulsionZoneSize=140;
-    this.repulsionStrength=0.03;
+    this.repulsionStrength=0.02;
     this.attractionStrength=0.0001;
     this.neighbors=0;
     this.repulseTime=60;
     this.dx=0;
     this.dy=0;
     this.previousAngle=0;
+    this.blink=0;
   }
   setPrevious(){
     this.previousX=this.x;
@@ -117,16 +126,16 @@ class CreatureThatAttracts {
     this.x+=this.dx;
     this.y+=this.dy;
     if(this.x>width){
-      this.x=0
+      this.x=width
     }
     else if(this.x<0){
-      this.x = width
+      this.x = 0
     }
     if(this.y>height){
-      this.y=0
+      this.y=height
     }
     else if(this.y<0){
-      this.y = height
+      this.y = 0
     }
 
     // draw the creature
@@ -166,7 +175,7 @@ class CreatureThatAttracts {
   }
   rotateCreature(){
     push();
-    fill("#581845");
+    fill(158,84,129);
     rectMode(CENTER);
     var xlen=(this.previousX-this.x);
     var ylen=(this.y-this.previousY);
@@ -190,10 +199,24 @@ class CreatureThatAttracts {
     else{
       rotate(this.previousAngle);
     }
+
     ellipse(0, 0, 70, 70);  
     fill(0);
-    ellipse(12,-12,17,17);
-    ellipse(12,12,17,17);
+    if (this.blink==0) {
+      if(random()<.0005){
+        this.blink=10;
+      }
+      else{
+        ellipse(12,-12,17,17);
+        ellipse(12,12,17,17);
+      }
+    }
+    if (this.blink>0) {
+      this.blink-=1;
+      rect(12, 12, 4, 20);
+      rect(12, -12, 4, -20);
+    }
+
     fill(229, 125, 34);
     // ellipse(50,50,30,30);
     pop();
