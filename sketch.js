@@ -1,10 +1,7 @@
 var creatures = [];
 var predators = [];
 var deadCreatures=[];
-<<<<<<< HEAD
 var plants=[];
-=======
->>>>>>> 8d3f99f3bae155278913fd5f39e23b08340cfd06
 var timecount = 0;
 function preload(){
   dirt = loadImage("images/dirt.jpg");
@@ -33,6 +30,7 @@ function draw() {
       creatures[i].attract( creatures[j] );
       creatures[i].repulse( creatures[j] );
     }
+    creatures[i].moveAndDisplay();
     if (creatures[i].deadCounter<1) {
       creatures.splice(i,1);
       i++;
@@ -40,7 +38,6 @@ function draw() {
     // for (var l )
 
     // display the creature
-    creatures[i].moveAndDisplay();
   }
   for( var r=0; r<predators.length; r++){
     predators[r].setPrevious();
@@ -166,11 +163,7 @@ class preyCreature {
     this.attractionZoneSize = 400;
     this.health = 100;
     this.dead = 0;
-<<<<<<< HEAD
     this.deadCounter=90;
-=======
-    this.deadcounter = 120;
->>>>>>> 8d3f99f3bae155278913fd5f39e23b08340cfd06
 
     this.repulsionZoneSize=this.size*2;
     this.repulsionStrength=0.02;
@@ -255,11 +248,7 @@ class preyCreature {
     this.previousY=this.y;
   }
   healthFunc() {
-<<<<<<< HEAD
     this.health-=0.06;
-=======
-    this.health-=0.1;
->>>>>>> 8d3f99f3bae155278913fd5f39e23b08340cfd06
     if (this.health<=0){
       this.deathProcess();
     }
@@ -267,7 +256,6 @@ class preyCreature {
       this.red=map(this.health,50,100,249,77);
       this.blue=54;
       this.green=249;
-<<<<<<< HEAD
     }
     else{
       this.red=249;
@@ -281,100 +269,6 @@ class preyCreature {
     //var tempCreature = creatures.splice(this.index,1);
     this.dead=1;
     this.deadCounter=90;
-=======
-    }
-    else{
-      this.red=249;
-      this.blue=54;
-      this.green=map(50-this.health,0,50,249,100);
-    }
-    console.log(this.red, this.green,this.blue);
-  }
-  moveAndDisplay() {
-    if (this.dead ==1){
-      push();
-      fill(200,200,200);
-      rectMode(CENTER);
-      var xlen=(this.previousX-this.x);
-      var ylen=(this.y-this.previousY);
-      var result=ylen/xlen;
-      var ang=Math.atan(result);
-      ang=ang+3.14159;
-      if (this.previousX<this.x) {
-        ang=ang+3.14159;
-      }
-      var c = -ang;
-  
-  
-      translate(this.x, this.y);
-      // console.log(c)
-      //apply the final rotation
-
-      rotate(this.previousAngle);
-  
-      ellipse(0, 0, this.size, this.size);
-      fill(0);
-      if (this.blink==0) {
-        if(random()<.0005){
-          this.blink=20;
-        }
-        else{
-          ellipse(this.size/7,-this.size/7,this.size/5,this.size/5);
-          ellipse(this.size/7,this.size/7,this.size/5,this.size/5);
-        }
-      }
-      if (this.blink>0) {
-        this.blink-=1;
-        rect(this.size/7, this.size/7, this.size/20, this.size/6);
-        rect(this.size/7, -this.size/7, this.size/20, -this.size/6);
-      }
-  
-      fill(229, 125, 34);
-      // ellipse(50,50,30,30);
-      pop();
-
-  
-      
-    }
-    else{
-      if (this.repulsed==0) {
-        this.dx += map( noise(this.noiseOffsetX), 0, 1, -1, 1);
-        this.dy += map( noise(this.noiseOffsetY), 0, 1, -1, 1);
-      }
-      this.healthFunc();
-      this.noiseOffsetX += 0.01;
-      this.noiseOffsetY += 0.01;
-      this.x+=this.dx;
-      this.y+=this.dy;
-      if(this.x>width){
-        this.x=width
-      }
-      else if(this.x<0){
-        this.x = 0
-      }
-      if(this.y>height){
-        this.y=height
-      }
-      else if(this.y<0){
-        this.y = 0
-      }
-  
-      // draw the creature
-      fill(255);
-      noStroke();
-      this.rotateCreature();
-      // draw the 'attraction zone' for the creature
-       // ellipse(this.x, this.y, this.repulsionZoneSize, this.repulsionZoneSize);
-       this.dx=0;
-       this.dy=0;
-    }
-    
-    
-  }
-  deathProcess(){
-    //var tempCreature = creatures.splice(this.index,1);
-    tempCreature.dead=1;
->>>>>>> 8d3f99f3bae155278913fd5f39e23b08340cfd06
     //deadCreatures.append(tempCreature);
     
   }
