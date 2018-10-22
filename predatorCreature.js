@@ -165,7 +165,7 @@ class predatorCreature {
   }
   eat(otherCreature,index) {
     var d = dist(this.x, this.y, otherCreature.x, otherCreature.y);
-    if (d < this.eatZoneSize/2) {
+    if (d < (otherCreature.size+this.size)/2) {
       otherCreature.deathProcess();
       //creatures.splice(index,1);
     }

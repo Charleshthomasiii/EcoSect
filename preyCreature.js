@@ -1,10 +1,10 @@
 class preyCreature {
-  constructor(x,y) {
+  constructor(x,y,startHealth) {
     this.red;
     this.green;
     this.blue;
     this.index;
-    this.size=40;
+    this.size=30;
     this.x = x;
     this.y = y;
     this.previousX=0;
@@ -12,13 +12,13 @@ class preyCreature {
     this.repulsed=0;
     this.noiseOffsetX = random(0,1000);
     this.noiseOffsetY = random(0,1000);
-    this.attractionZoneSize = 400;
-    this.health = 100;
+    this.attractionZoneSize = this.size*10;
+    this.health = startHealth;
     this.dead = 0;
     this.deadCounter=90;
-
     this.repulsionZoneSize=this.size*2;
     this.repulsionStrength=0.02;
+    this.plantRepulsionStrength=0.0005;
     this.attractionStrength=0.0001;
     this.neighbors=0;
     this.repulseTime=60;
@@ -26,8 +26,8 @@ class preyCreature {
     this.dy=0;
     this.previousAngle=0;
     this.blink=0;
-    this.plantZoneSize=2000;
-    this.plantStrength=.001;
+    this.plantZoneSize=this.size*10;
+    this.plantStrength=.008;
   }
   
   moveAndDisplay() {
@@ -64,25 +64,25 @@ class preyCreature {
 
     else{
       if (this.repulsed==0) {
-        this.dx += map( noise(this.noiseOffsetX), 0, 1, -1, 1);
-        this.dy += map( noise(this.noiseOffsetY), 0, 1, -1, 1);
+        this.dx += map( noise(this.noiseOffsetX), 0, 1, -1.3, 1.3);
+        this.dy += map( noise(this.noiseOffsetY), 0, 1, -1.3, 1.3);
       }
       this.healthFunc();
       this.noiseOffsetX += 0.01;
       this.noiseOffsetY += 0.01;
       this.x+=this.dx;
       this.y+=this.dy;
-      if(this.x>width){
-        this.x=width
+      if(this.x>width-this.size/2){
+        this.x=width-this.size/2;
       }
-      else if(this.x<0){
-        this.x = 0
+      else if(this.x<0+this.size/2){
+        this.x = 0+this.size/2;
       }
-      if(this.y>height){
-        this.y=height
+      if(this.y>height-this.size/2){
+        this.y=height-this.size/2;
       }
-      else if(this.y<0){
-        this.y = 0
+      else if(this.y<0+this.size/2){
+        this.y = 0+this.size/2;
       }
   
       // draw the creature
@@ -198,11 +198,11 @@ class preyCreature {
     pop();
   }
 
-  attractPlant(otherPlant) {
+  attractPlant(otherPlant) { //plants must spawn certain distance apart, each have smaller attraction zone
     // see how far away we are from the other creatures
     var d = dist(this.x, this.y, otherPlant.x, otherPlant.y);
     // are we within the atraction zone?
-    if (d < this.plantZoneSize/2 && this.repulsed==0) { //do we keep this.repulsed in
+    if (d < this.plantZoneSize/2 && this.repulsed==0 && this.health<80) { //do we keep this.repulsed in
       // move toward this creature a little bit
       var changeX = otherPlant.x - this.x;
       var changeY = otherPlant.y - this.y;
@@ -211,7 +211,6 @@ class preyCreature {
       this.dx += changeX * this.plantStrength;
       this.dy += changeY * this.plantStrength;
     }
-
   }
   attract(otherCreature) {
     // see how far away we are from the other creatures
@@ -248,6 +247,30 @@ class preyCreature {
       // move 5% of the way to the new creature
       this.dx -= changeX * this.repulsionStrength;
       this.dy -= changeY * this.repulsionStrength;
+      this.repulsed=this.repulseTime;
+      //otherCreature.repulsed=this.repulseTime;
+    }
+  }
+  repulsePlant(otherPlant) {
+    // see how far away we are from the other creatures
+    var d = dist(this.x, this.y, otherPlant.x, otherPlant.y);
+    var changeX;
+    var changeY;
+    // are we within the atraction zone?
+    if (this.repulsed!=0) {
+      // this.dx -= changeX * this.repulsionStrength;
+      // this.dy -= changeY * this.repulsionStrength;
+      this.repulsed-=1;
+    }
+    if (d < otherPlant.size/1.5) {
+      this.health=100;
+      // move toward this creature a little bit
+      changeX = otherPlant.x - this.x;
+      changeY = otherPlant.y - this.y;
+
+      // move 5% of the way to the new creature
+      this.dx -= changeX * this.plantRepulsionStrength;
+      this.dy -= changeY * this.plantRepulsionStrength;
       this.repulsed=this.repulseTime;
       //otherCreature.repulsed=this.repulseTime;
     }
