@@ -26,8 +26,8 @@ class preyCreature {
     this.dy=0;
     this.previousAngle=0;
     this.blink=0;
-    this.plantZoneSize=this.size*10;
-    this.plantStrength=.008;
+    this.plantZoneSize=this.size*8;
+    this.plantStrength=.01;
   }
   
   moveAndDisplay() {
@@ -64,25 +64,40 @@ class preyCreature {
 
     else{
       if (this.repulsed==0) {
-        this.dx += map( noise(this.noiseOffsetX), 0, 1, -1.3, 1.3);
-        this.dy += map( noise(this.noiseOffsetY), 0, 1, -1.3, 1.3);
+        this.dx += map( noise(this.noiseOffsetX), 0, 1, -1.4, 1.4);
+        this.dy += map( noise(this.noiseOffsetY), 0, 1, -1.4, 1.4);
       }
       this.healthFunc();
-      this.noiseOffsetX += 0.01;
-      this.noiseOffsetY += 0.01;
+      this.noiseOffsetX += 0.001;
+      this.noiseOffsetY += 0.001;
       this.x+=this.dx;
       this.y+=this.dy;
-      if(this.x>width-this.size/2){
-        this.x=width-this.size/2;
+      // if(this.x>width-this.size/2){
+      //   this.x=width-this.size/2;
+      // }
+      // else if(this.x<0+this.size/2){
+      //   this.x = 0+this.size/2;
+      // }
+      // if(this.y>height-this.size/2){
+      //   this.y=height-this.size/2;
+      // }
+      // else if(this.y<0+this.size/2){
+      //   this.y = 0+this.size/2;
+      // }
+
+
+
+       if(this.x>width){
+        this.x=0;
       }
-      else if(this.x<0+this.size/2){
-        this.x = 0+this.size/2;
+      else if(this.x<0){
+        this.x = width;
       }
-      if(this.y>height-this.size/2){
-        this.y=height-this.size/2;
+      if(this.y>height){
+        this.y=0;
       }
-      else if(this.y<0+this.size/2){
-        this.y = 0+this.size/2;
+      else if(this.y<0){
+        this.y = height;
       }
   
       // draw the creature
@@ -122,7 +137,6 @@ class preyCreature {
     this.dead=1;
     this.deadCounter=90;
     //deadCreatures.append(tempCreature);
-    
   }
   rotateCreatureMouse(){
     push();
@@ -264,6 +278,7 @@ class preyCreature {
     }
     if (d < otherPlant.size/1.5) {
       this.health=100;
+      otherPlant.health-=10;
       // move toward this creature a little bit
       changeX = otherPlant.x - this.x;
       changeY = otherPlant.y - this.y;

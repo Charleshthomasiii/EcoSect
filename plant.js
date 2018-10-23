@@ -4,7 +4,7 @@ class plant{
     this.y = y;
     this.repulsed=0;
     this.attractionZoneSize = 400;
-    this.health = 15;
+    this.health = 50;
     this.dead = 0;
     this.deadCounter=90;
     this.repulsionZoneSize=this.size*2;

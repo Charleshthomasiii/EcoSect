@@ -13,8 +13,7 @@ function setup() {
     creatures.push( new preyCreature(random(width), random(height),100));
   }
   // creatures.push(new predatorCreature(200,200));
-  predators.push(new predatorCreature(500,500));
-  predators.push(new predatorCreature(600,500));
+  predators.push(new predatorCreature(500,500,100));
   noiseDetail(24);
 }
 var plantTest= new plant(50,50);
@@ -29,7 +28,7 @@ function draw() {
     var plantX=random(50,width-50);
     var plantY=random(50,height-50);
     for(var f =0;f<plants.length;f++){
-      if (dist(plantX, plantY, plants[f].x, plants[f].y)<200) {
+      if (dist(plantX, plantY, plants[f].x, plants[f].y)<180) {
         push=false;
       }
     }
@@ -45,7 +44,7 @@ function draw() {
   for (var i = 0; i < creatures.length; i++) {
     if (creatures[i].health>90 && creatures[i].dead==0) {
       if (random()<.003) {
-        creatures.push( new preyCreature(creatures[i].x, creatures[i].y, 90));
+        creatures.push( new preyCreature(creatures[i].x, creatures[i].y, 80));
       }
     }
     creatures[i].setPrevious();
@@ -74,6 +73,18 @@ function draw() {
   for (var d = 0; d < plants.length; d++) {
     if (plants[d].deadCounter<1) {
       plants.splice(d,1);
+      d++;
+    }
+  }
+  for (var d = 0; d < predators.length; d++) {
+    if (predators[d].health>100 && predators[d].dead!=0) {
+      if (random()<.003) {
+        predators[d].health=70;
+        predators.push( new predatorCreature(predators[d].x, predators[d].y, 70));
+      }
+    }
+    if (predators[d].deadCounter<1) {
+      predators.splice(d,1);
       d++;
     }
   }
