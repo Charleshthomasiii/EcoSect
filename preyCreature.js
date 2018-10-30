@@ -1,5 +1,6 @@
 class preyCreature {
   constructor(x,y,startHealth) {
+    console.log("adsfasd");
     this.red;
     this.green;
     this.blue;
@@ -197,8 +198,8 @@ class preyCreature {
         this.blink=20;
       }
       else{
-        ellipse(this.size/7,-this.size/7,this.size/5,this.size/5);
-        ellipse(this.size/7,this.size/7,this.size/5,this.size/5);
+        ellipse(this.size/7,-this.size/7,this.size/4,this.size/4);
+        ellipse(this.size/7,this.size/7,this.size/4,this.size/4);
       }
     }
     if (this.blink>0) {

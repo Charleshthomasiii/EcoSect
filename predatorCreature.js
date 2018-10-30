@@ -1,5 +1,6 @@
 class predatorCreature {
   constructor(x,y,startHealth) {
+    this.moveSpeed;
     this.size=60;
     this.x = x;
     this.y = y;
@@ -9,7 +10,7 @@ class predatorCreature {
     this.repulsed=0;
     this.noiseOffsetX = random(0,10000);
     this.noiseOffsetY = random(0,10000);
-    this.attractionZoneSize = 500;
+    this.attractionZoneSize = 350;
     this.preyDecision=[];
     this.index;
     //pick the nearest prey, and chase after it
@@ -37,18 +38,18 @@ class predatorCreature {
     //deadCreatures.append(tempCreature);
   }
   healthFunc() {
-    this.health-=0.05;
+    this.health-=0.06;
     if (this.health<=0){
       this.deathProcess();
     }
     if (this.health>50) {
       this.red=map(this.health,50,100,249,77);
-      this.blue=54;
+      this.blue=180;
       this.green=50;
     }
     else{
       this.red=249;
-      this.blue=54;
+      this.blue=180;
       this.green=map(50-this.health,0,50,50,0);
     }
     //console.log(this.red, this.green,this.blue);
@@ -103,6 +104,9 @@ class predatorCreature {
       this.dy += changeY * this.attractionStrength;
       this.dx += map( noise(this.noiseOffsetX), 0, 1, -1, 1);
       this.dy += map( noise(this.noiseOffsetY), 0, 1, -1, 1);
+      this.moveSpeed=map(sliderY,459,541,.3,7);
+      this.dx/=this.moveSpeed; 
+      this.dy/=this.moveSpeed;
       this.noiseOffsetX += 0.001;
       this.noiseOffsetY += 0.001;
       if (this.eatingCounter>0) {
@@ -208,13 +212,15 @@ class predatorCreature {
         ellipse(this.size/7,this.size/7,this.size/5,this.size/5);
       }
     }
+    if (this.eatingCounter>0) {
+      fill(0);
+      ellipse(this.size/2.7,0,this.size/6,this.size/4);
+    }
     if (this.blink>0) {
       this.blink-=1;
       rect(this.size/7, this.size/7, this.size/20, this.size/6);
       rect(this.size/7, -this.size/7, this.size/20, -this.size/6);
     }
-
-    fill(229, 125, 34);
     // ellipse(50,50,30,30);
     pop();
   }
