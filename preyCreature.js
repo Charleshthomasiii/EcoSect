@@ -1,6 +1,6 @@
 class preyCreature {
   constructor(x,y,startHealth) {
-    console.log("adsfasd");
+    //console.log("adsfasd");
     this.red;
     this.green;
     this.blue;

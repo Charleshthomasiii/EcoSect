@@ -3,7 +3,7 @@ var predators = [];
 var deadCreatures=[];
 var plants=[];
 var timecount = 0;
-var sliderY=500; //plus or minus 41 pixels
+var sliderY=541; //plus or minus 41 pixels
 
 function preload(){
   dirt = loadImage("images/dirt.jpg");
@@ -29,16 +29,17 @@ plants.push(plantTest);
 function mousePressed() {
   var plantTest= new plant(mouseX, mouseY);
   plants.push(plantTest);
-  console.log("test");
+  //console.log("test");
 }
 function draw() {
   //tint(255, 128);
-  if ((keyIsDown('83') ||keyIsDown(DOWN_ARROW)) && sliderY<541) {
-    sliderY+=1;
-  }
-  if ((keyIsDown('87')||keyIsDown(UP_ARROW)) && sliderY>459) {
-    sliderY-=1;
-  }
+  // if ((keyIsDown('83') ||keyIsDown(DOWN_ARROW)) && sliderY<541) {
+  //   sliderY+=1;
+  // }
+  // if ((keyIsDown('87')||keyIsDown(UP_ARROW)) && sliderY>459) {
+  //   sliderY-=1;
+  // }
+  sliderY-=.001*(sliderY-459);
   image(dirt,0,0);
   image(dirt,dirt.width,0);
   //noTint();
@@ -96,7 +97,7 @@ function draw() {
   for (var i = 0; i < creatures.length; i++) {
     if (creatures[i].deadCounter<1) {
       creatures.splice(i,1);
-      playEnv();
+      //playEnv();
       i++;
     }
   }
@@ -108,7 +109,7 @@ function draw() {
   }
   for (var d = 0; d < predators.length; d++) {
     if (predators[d].health>108 && predators[d].dead!=0) {
-      if (random()<.0025 &&predators.length<5) {
+      if (random()<.002 &&predators.length<5 ) {
         predators[d].health=70;
         predators.push( new predatorCreature(predators[d].x, predators[d].y, 70));
       }
