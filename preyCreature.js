@@ -18,9 +18,9 @@ class preyCreature {
     this.dead = 0;
     this.deadCounter=90;
     this.repulsionZoneSize=this.size*2;
-    this.repulsionStrength=0.01;
+    this.repulsionStrength=0.017;
     this.predatorRepulsionZoneSize=this.size*5;
-    this.predatorRepulsionStrength=4;
+    this.predatorRepulsionStrength=.002;
     this.plantRepulsionStrength=0.0005;
     this.attractionStrength=0.00001;
     this.neighbors=0;
@@ -68,8 +68,8 @@ class preyCreature {
 
     else{
       if (this.repulsed==0 && this.running==false) {
-        this.dx += map( noise(this.noiseOffsetX), 0, 1, -.1, .1);
-        this.dy += map( noise(this.noiseOffsetY), 0, 1, -.1, .1);
+        this.dx += map( noise(this.noiseOffsetX), 0, 1, -.22, .22);
+        this.dy += map( noise(this.noiseOffsetY), 0, 1, -.22, .22);
       }
       this.healthFunc();
       this.noiseOffsetX += 0.001;
@@ -281,8 +281,8 @@ class preyCreature {
       changeY = otherCreature.y - this.y;
 
       // move 5% of the way to the new creature
-      this.dx -= (1/changeX) * this.predatorRepulsionStrength;
-      this.dy -= (1/changeY) * this.predatorRepulsionStrength;
+      this.dx -= changeX * this.predatorRepulsionStrength;
+      this.dy -= changeY * this.predatorRepulsionStrength;
       this.running=true;
     }
     else{
