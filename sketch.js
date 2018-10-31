@@ -149,6 +149,7 @@ function draw() {
         plants[w].moveAndDisplay();
       }
     }
+    
     else if (stop == 1){
       fill(255);
       background(0);
