@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 var creatures = [];
 var predators = [];
 var deadCreatures=[];
@@ -6,7 +5,6 @@ var plants=[];
 var timecount = 0;
 var sliderY=541; //plus or minus 41 pixels
 var state=0;
-
 function preload(){
   dirt = loadImage("images/dirt.jpg");
   bush= loadImage("images/bush.png")
@@ -14,8 +12,8 @@ function preload(){
   soundTrack = loadSound("sounds/soundtrack.mp3");
   soundSetup();
 }
-function setup() {
-
+function setup(){
+  console.log("testtest");
   createCanvas(1300,600,);
   for (var i = 0; i < 20; i++) {
     creatures.push( new preyCreature(random(width), random(height),100));
@@ -29,9 +27,10 @@ function setup() {
 function mousePressed() {
   var plantTest= new plant(mouseX, mouseY);
   plants.push(plantTest);
-  //console.log("test");
+  console.log("test");
 }
 function draw() {
+  console.log("testing");
   //tint(255, 128);
   // if ((keyIsDown('83') ||keyIsDown(DOWN_ARROW)) && sliderY<541) {
   //   sliderY+=1;
@@ -86,6 +85,7 @@ function draw() {
     }
     for(var w =0; w<predators.length;w++){
         creatures[i].repulsePredator(predators[w]);
+        console.log("goteem");
     }
     for (var j = 0; j < plants.length; j++) {
       creatures[i].attractPlant(plants[j]);
@@ -132,7 +132,6 @@ function draw() {
     predators[r].preyDecision = [];
   }
 }
-=======
 var creatures = [];
 var predators = [];
 var deadCreatures=[];
@@ -182,7 +181,7 @@ function keyPressed() {
       pause = 1;
       inactivetime = milliseconds;
       tempactivetime = activetimeinseconds;
-      //console.log(inactivetime);
+      console.log(inactivetime);
     }
     else{
       pause = 0;
@@ -357,4 +356,3 @@ function draw() {
     }
   }
 }
->>>>>>> cfea3920958cc512f84bf8520e39308a71b75281
