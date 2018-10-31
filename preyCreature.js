@@ -18,9 +18,11 @@ class preyCreature {
     this.dead = 0;
     this.deadCounter=90;
     this.repulsionZoneSize=this.size*2;
-    this.repulsionStrength=0.02;
+    this.repulsionStrength=0.01;
+    this.predatorRepulsionZoneSize=this.size*5;
+    this.predatorRepulsionStrength=4;
     this.plantRepulsionStrength=0.0005;
-    this.attractionStrength=0.0001;
+    this.attractionStrength=0.00001;
     this.neighbors=0;
     this.repulseTime=60;
     this.dx=0;
@@ -28,7 +30,8 @@ class preyCreature {
     this.previousAngle=0;
     this.blink=0;
     this.plantZoneSize=this.size*8;
-    this.plantStrength=.01;
+    this.plantStrength=.003;
+    this.running=false;
   }
   
   moveAndDisplay() {
@@ -64,9 +67,9 @@ class preyCreature {
 
 
     else{
-      if (this.repulsed==0) {
-        this.dx += map( noise(this.noiseOffsetX), 0, 1, -1.4, 1.4);
-        this.dy += map( noise(this.noiseOffsetY), 0, 1, -1.4, 1.4);
+      if (this.repulsed==0 && this.running==false) {
+        this.dx += map( noise(this.noiseOffsetX), 0, 1, -.1, .1);
+        this.dy += map( noise(this.noiseOffsetY), 0, 1, -.1, .1);
       }
       this.healthFunc();
       this.noiseOffsetX += 0.001;
@@ -89,16 +92,16 @@ class preyCreature {
 
 
        if(this.x>width){
-        this.x=0;
+        this.x=3;
       }
       else if(this.x<0){
-        this.x = width;
+        this.x = width-3;
       }
       if(this.y>height){
-        this.y=0;
+        this.y=3;
       }
       else if(this.y<0){
-        this.y = height;
+        this.y = height-3;
       }
   
       // draw the creature
@@ -107,8 +110,8 @@ class preyCreature {
       this.rotateCreature();
       // draw the 'attraction zone' for the creature
        // ellipse(this.x, this.y, this.repulsionZoneSize, this.repulsionZoneSize);
-       this.dx=0;
-       this.dy=0;
+       this.dx/=1.2;
+       this.dy/=1.2;
     }
   }
   setPrevious(){
@@ -263,6 +266,27 @@ class preyCreature {
       this.dx -= changeX * this.repulsionStrength;
       this.dy -= changeY * this.repulsionStrength;
       this.repulsed=this.repulseTime;
+      //otherCreature.repulsed=this.repulseTime;
+    }
+  }
+  repulsePredator(otherCreature) {
+    // see how far away we are from the other creatures
+    var d = dist(this.x, this.y, otherCreature.x, otherCreature.y);
+    var changeX;
+    var changeY;
+    // are we within the atraction zone?
+    if (d < this.predatorRepulsionZoneSize) {
+      // move toward this creature a little bit
+      changeX = otherCreature.x - this.x;
+      changeY = otherCreature.y - this.y;
+
+      // move 5% of the way to the new creature
+      this.dx -= (1/changeX) * this.predatorRepulsionStrength;
+      this.dy -= (1/changeY) * this.predatorRepulsionStrength;
+      this.running=true;
+    }
+    else{
+      this.running=false;
       //otherCreature.repulsed=this.repulseTime;
     }
   }

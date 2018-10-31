@@ -4,6 +4,7 @@ var deadCreatures=[];
 var plants=[];
 var timecount = 0;
 var sliderY=541; //plus or minus 41 pixels
+var state=0;
 
 function preload(){
   dirt = loadImage("images/dirt.jpg");
@@ -13,6 +14,7 @@ function preload(){
   soundSetup();
 }
 function setup() {
+
   createCanvas(1300,600,);
   for (var i = 0; i < 20; i++) {
     creatures.push( new preyCreature(random(width), random(height),100));
@@ -23,9 +25,6 @@ function setup() {
   soundTrack.play();
 
 }
-var plantTest= new plant(50,50);
-plants.push(plantTest);
-
 function mousePressed() {
   var plantTest= new plant(mouseX, mouseY);
   plants.push(plantTest);
@@ -80,10 +79,12 @@ function draw() {
     creatures[i].setPrevious();
     // visit every other creature and see i fwe need to attract
     for (var j = i+1; j < creatures.length; j++) {
-      //creatures[i].attract( creatures[j] );
       creatures[i].repulse( creatures[j] );
       // creatures[i].attractPlant(plantTest);
       // creatures[i].repulsePlant(plantTest);
+    }
+    for(var w =0; w<predators.length;w++){
+        creatures[i].repulsePredator(predators[w]);
     }
     for (var j = 0; j < plants.length; j++) {
       creatures[i].attractPlant(plants[j]);

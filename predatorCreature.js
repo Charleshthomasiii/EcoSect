@@ -104,7 +104,7 @@ class predatorCreature {
       this.dy += changeY * this.attractionStrength;
       this.dx += map( noise(this.noiseOffsetX), 0, 1, -1, 1);
       this.dy += map( noise(this.noiseOffsetY), 0, 1, -1, 1);
-      this.moveSpeed=map(sliderY,459,541,.3,7);
+      this.moveSpeed=map(sliderY,459,541,.3,1);
       this.dx/=this.moveSpeed; 
       this.dy/=this.moveSpeed;
       this.noiseOffsetX += 0.001;
