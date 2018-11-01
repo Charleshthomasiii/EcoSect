@@ -81,7 +81,6 @@ function keyPressed() {
     }
     else{
       pause = 0;
-      //activetimeinseconds+=tempactivetime;
     }
   }
 }
@@ -100,7 +99,6 @@ function setup() {
     creatures.push( new preyCreature(random(width), random(height),100));
     numPrey+=1;
   }
-  // creatures.push(new predatorCreature(200,200));
   predators.push(new predatorCreature(500,500,100));
   numPreds+=1;
   noiseDetail(24);
@@ -197,9 +195,7 @@ function draw() {
         }
         textAlign(CENTER);
         textSize(30);
-        // textFont(gigifont);
         fill(255);
-        // background(0);
         text("Game paused. Press p to Play", width/2,height/2);
 
       }
@@ -302,6 +298,7 @@ function draw() {
       text(numPrey+" total prey created.",width/2,250);
       text(numPreds+" total predators created.",width/2,280)
       text(Math.round((milliseconds-startTime)/1000)+" seconds ecosystem lasted.",width/2,310)
+      text("(press space to play again)",width/2, 340);
       noCursor();
       textSize(20);
     }
