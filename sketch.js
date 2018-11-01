@@ -34,8 +34,43 @@ function keyPressed() {
   console.log('pressed');
   if (keyCode=='32') {
     if (stop!=0) {
+      if (stop === -1){
+        creatures = [];
+        predators = [];
+        deadCreatures=[];
+        plants=[];
+        timecount = 0;
+        sliderY=541; //plus or minus 41 pixels
+        state=0;
+        creatures = [];
+        predators = [];
+        deadCreatures=[];
+        lants=[];
+        timecount = 0;
+        sliderY=500; //plus or minus 41 pixels
+        pause = 0;
+        stop = 4;
+        gameend = 0;
+        gigifont;
+        milliseconds = 0;
+        startTime=0;
+        tempactivetime = 0;
+        numPrey=0;
+        numPreds=0;
+        numPlants=0;
+        pauseTime=0;
+        for (var i = 0; i < 10; i++) {
+          creatures.push( new preyCreature(random(width), random(height),100));
+          numPrey+=1;
+        }
+        predators.push(new predatorCreature(500,500,100));
+        numPreds+=1;
+
+
+      }
       stop-=1;
     }
+
   }
   else if (keyCode=='80'){
     if (pause === 0) {
@@ -252,9 +287,9 @@ function draw() {
         }
         //displaying current time
         textAlign(LEFT);
-        textSize(15);
+        textSize(25);
         fill(255);
-        text(Math.round((milliseconds-startTime)/1000),10,20);
+        text(Math.round((milliseconds-startTime)/1000),10,25);
       }
     }
     else if (stop===-1) {
@@ -270,5 +305,5 @@ function draw() {
       noCursor();
       textSize(20);
     }
-  } 
+  }
 }
