@@ -129,7 +129,8 @@ function draw() {
       background(0);
       textAlign(LEFT);
       textSize(20);
-      text("Keep the ecosystem alive for as long as possible.",200,220);
+      text("Keep the ecosystem alive for as long as possible.",200,190);
+      text("If all of the predators or all of the prey die, the game ends.",200,220);
       text("Control the speed of the predators with the W and S keys.",200,250);
       text("Press p to pause the game.",200,280);
       textAlign(CENTER);
@@ -149,7 +150,7 @@ function draw() {
         plants[w].moveAndDisplay();
       }
     }
-    
+
     else if (stop == 1){
       fill(255);
       background(0);
@@ -161,6 +162,8 @@ function draw() {
       text("(space)",width/2,500);
     }
     else if (stop == 0){
+      image(dirt,0,0);
+      image(dirt,dirt.width,0);
       milliseconds = millis();
       if (pause == 1){
         if (pauseTime===0) {
@@ -170,7 +173,7 @@ function draw() {
         textSize(30);
         // textFont(gigifont);
         fill(255);
-        background(0);
+        // background(0);
         text("Game paused. Press p to Play", width/2,height/2);
 
       }
@@ -183,7 +186,7 @@ function draw() {
           startTime+=pauseTime;
           pauseTime=0
         }
-        background(0);
+        //background(0);
         noCursor();
         imageMode(CENTER);
         image(bush,mouseX,mouseY,30,30);
@@ -194,7 +197,6 @@ function draw() {
         fill(20);
         ellipse(34,sliderY,20,20);
         imageMode(CORNER);
-
         for(var w =0; w<plants.length; w++){
           plants[w].moveAndDisplay();
         }
