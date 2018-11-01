@@ -80,19 +80,7 @@ function draw() {
   if ((keyIsDown('87')||keyIsDown(UP_ARROW)) && sliderY>459) {
        sliderY-=1;
   }
-  if (gameend == 1){
-    //image(dirt,0,0);
-    //image(dirt,dirt.width,0);
-    textAlign(CENTER);
-    textSize(100);
-    textFont(gigifont);
-    fill(255);
-
-    text("THE END", 650,150);
-    text("You kept it going for"+activetimeinseconds+"seconds", 650, 300);
-
-  }
-  else if(gameend==0){
+  if(gameend==0){
     if (stop==4){
       noCursor();
       background(0);
@@ -162,6 +150,9 @@ function draw() {
       text("(space)",width/2,500);
     }
     else if (stop == 0){
+      if (predators.length===0 || creatures.length===0) {
+        stop=-1;
+      }
       image(dirt,0,0);
       image(dirt,dirt.width,0);
       milliseconds = millis();
@@ -265,6 +256,19 @@ function draw() {
         fill(255);
         text(Math.round((milliseconds-startTime)/1000),10,20);
       }
+    }
+    else if (stop===-1) {
+      fill(255);
+      background(0);
+      textSize(50);
+      textAlign(CENTER);
+      text("ECOSECT",width/2,210);
+      textSize(20);
+      text(numPrey+" total prey created.",width/2,250);
+      text(numPreds+" total predators created.",width/2,280)
+      text(Math.round((milliseconds-startTime)/1000)+" seconds ecosystem lasted.",width/2,310)
+      noCursor();
+      textSize(20);
     }
   } 
 }
