@@ -89,7 +89,7 @@ function preload(){
   dirt = loadImage("images/dirt.jpg");
   bush= loadImage("images/bush.png")
   popSound = loadSound("sounds/pop.ogg");
-  soundTrack = loadSound("sounds/soundtrack.mp3");
+  soundTrack = loadSound("sounds/soundtrack.ogg");
   gigifont = loadFont("GIGI.TTF")
   soundSetup();
 }
