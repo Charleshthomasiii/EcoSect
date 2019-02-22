@@ -14,7 +14,6 @@ var sliderY=500; //plus or minus 41 pixels
 var pause = 0;
 var stop = 4;
 var gameend = 0;
-var gigifont;
 var milliseconds = 0;
 var startTime=0;
 var tempactivetime = 0;
@@ -51,7 +50,6 @@ function keyPressed() {
         pause = 0;
         stop = 4;
         gameend = 0;
-        gigifont;
         milliseconds = 0;
         startTime=0;
         tempactivetime = 0;
@@ -90,7 +88,6 @@ function preload(){
   bush= loadImage("images/bush.png")
   popSound = loadSound("sounds/pop.ogg");
   soundTrack = loadSound("sounds/soundtrack.ogg");
-  gigifont = loadFont("GIGI.TTF")
   soundSetup();
 }
 function setup() {
@@ -208,7 +205,6 @@ function draw() {
           startTime+=pauseTime;
           pauseTime=0
         }
-        //background(0);
         noCursor();
         imageMode(CENTER);
         image(bush,mouseX,mouseY,30,30);
@@ -230,15 +226,11 @@ function draw() {
             }
           }
           creatures[i].setPrevious();
-          // visit every other creature and see i fwe need to attract
           for (var j = i+1; j < creatures.length; j++) {
             creatures[i].repulse( creatures[j] );
-            // creatures[i].attractPlant(plantTest);
-            // creatures[i].repulsePlant(plantTest);
           }
           for(var w =0; w<predators.length;w++){
               creatures[i].repulsePredator(predators[w]);
-              //console.log("goteem");
           }
           for (var j = 0; j < plants.length; j++) {
             creatures[i].attractPlant(plants[j]);

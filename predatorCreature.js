@@ -13,7 +13,6 @@ class predatorCreature {
     this.attractionZoneSize = 350;
     this.preyDecision=[];
     this.index;
-    //pick the nearest prey, and chase after it
     this.red;
     this.green;
     this.blue;
@@ -32,11 +31,10 @@ class predatorCreature {
     this.previousY=this.y;
   }
   deathProcess(){
-    //var tempCreature = creatures.splice(this.index,1);
     this.dead=1;
     this.deadCounter=90;
-    //deadCreatures.append(tempCreature);
   }
+
   healthFunc() {
     this.health-=0.06;
     if (this.health<=0){
@@ -52,7 +50,6 @@ class predatorCreature {
       this.blue=180;
       this.green=map(50-this.health,0,50,50,0);
     }
-    //console.log(this.red, this.green,this.blue);
   }
   moveAndDisplay() {
     if (this.dead ==1){
@@ -72,17 +69,16 @@ class predatorCreature {
   
   
       translate(this.x, this.y);
-      // console.log(c)
-      //apply the final rotation
 
       rotate(this.previousAngle);
   
       ellipse(0, 0, this.size, this.size);
       fill(0);
 
+
       rect(this.size/7, this.size/7, this.size/20, this.size/6);
       rect(this.size/7, -this.size/7, this.size/20, -this.size/6);
-      pop();      
+      pop();  
     }
     else{
       this.healthFunc();
@@ -116,18 +112,6 @@ class predatorCreature {
       }
       this.x+=this.dx;
       this.y+=this.dy;
-      // if(this.x>width){
-      //   this.x=width
-      // }
-      // else if(this.x<0){
-      //   this.x = 0
-      // }
-      // if(this.y>height){
-      //   this.y=height
-      // }
-      // else if(this.y<0){
-      //   this.y = 0
-      // }
       if(this.x>width){
         this.x=0
       }
@@ -144,7 +128,6 @@ class predatorCreature {
       // draw the creature
       this.rotateCreature();
       // draw the 'attraction zone' for the creature
-       // ellipse(this.x, this.y, this.repulsionZoneSize, this.repulsionZoneSize);
        this.dx=0;
        this.dy=0;
     }
@@ -164,7 +147,6 @@ class predatorCreature {
     }
     var c = -((ang));
     translate(this.x, this.y);
-    // console.log(c)
     //apply the final rotation
     rotate(c);
     ellipse(0, 0, this.size, this.size);
@@ -172,7 +154,6 @@ class predatorCreature {
     ellipse(this.size/5.2,-this.size/5,this.size/5,this.size/5);
     ellipse(this.size/5.2,-this.size/5,this.size/5,this.size/5);
     fill(229, 125, 34);
-    // ellipse(50,50,30,30);
     pop();
   }
   rotateCreature(){
@@ -190,9 +171,7 @@ class predatorCreature {
 
 
     translate(this.x, this.y);
-    // console.log(c)
     //apply the final rotation
-    //rotate(c);
     if (this.eatingCounter==0) {
       rotate(c);
       this.previousAngle=c;
@@ -221,7 +200,6 @@ class predatorCreature {
       rect(this.size/7, this.size/7, this.size/20, this.size/6);
       rect(this.size/7, -this.size/7, this.size/20, -this.size/6);
     }
-    // ellipse(50,50,30,30);
     pop();
   }
 
@@ -235,9 +213,6 @@ class predatorCreature {
       var changeX = otherCreature.x - this.x;
       var changeY = otherCreature.y - this.y;
       this.preyDecision.push([d,changeX,changeY]);
-      // move 5% of the way to the new creature
-      // this.dx += changeX * this.attractionStrength;
-      // this.dy += changeY * this.attractionStrength;
     }
 
   }
@@ -246,7 +221,6 @@ class predatorCreature {
     if (d < (otherCreature.size+this.size)/2 && otherCreature.dead==0) {
       otherCreature.deathProcess(this);
       this.eatingCounter=20;
-      //creatures.splice(index,1);
       this.health+=10;
     }
   }

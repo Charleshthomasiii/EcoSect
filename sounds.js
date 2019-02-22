@@ -31,8 +31,6 @@ function soundSetup(){
 }
 
 function playEnv(){
-  //env.play();
-  //console.log('gottem');
   triOsc.freq(notes[noteIndex]);
   noteIndex++;
   if (noteIndex==notes.length) {

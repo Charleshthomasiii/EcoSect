@@ -12,9 +12,6 @@ class plant{
     this.attractionStrength=0.1;
     this.size=50;
   }
-  // rotateCreature(){
-    
-  // }
   healthFunc() {
     this.health-=0.1;
     if (this.health<=0){
@@ -22,12 +19,8 @@ class plant{
     }
   }
   deathProcess(){
-    //var tempCreature = creatures.splice(this.index,1);
     this.dead=1;
-    this.deadCounter=90;
-
-    //deadCreatures.append(tempCreature);
-    
+    this.deadCounter=90;    
   }
   moveAndDisplay() {
     imageMode(CENTER);

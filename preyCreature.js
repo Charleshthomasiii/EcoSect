@@ -1,6 +1,5 @@
 class preyCreature {
   constructor(x,y,startHealth) {
-    //console.log("adsfasd");
     this.red;
     this.green;
     this.blue;
@@ -52,7 +51,6 @@ class preyCreature {
   
   
       translate(this.x, this.y);
-      // console.log(c)
       //apply the final rotation
 
       rotate(this.previousAngle);
@@ -109,7 +107,6 @@ class preyCreature {
       noStroke();
       this.rotateCreature();
       // draw the 'attraction zone' for the creature
-       // ellipse(this.x, this.y, this.repulsionZoneSize, this.repulsionZoneSize);
        this.dx/=1.2;
        this.dy/=1.2;
     }
@@ -133,14 +130,11 @@ class preyCreature {
       this.blue=54;
       this.green=map(50-this.health,0,50,249,50);
     }
-    //console.log(this.red, this.green,this.blue);
   }
 
   deathProcess(){
-    //var tempCreature = creatures.splice(this.index,1);
     this.dead=1;
     this.deadCounter=90;
-    //deadCreatures.append(tempCreature);
   }
   rotateCreatureMouse(){
     push();
@@ -163,8 +157,8 @@ class preyCreature {
     fill(0);
     ellipse(this.size/5.2,-this.size/5,this.size/5,this.size/5);
     ellipse(this.size/5.2,-this.size/5,this.size/5,this.size/5);
+    stroke(125);
     fill(229, 125, 34);
-    // ellipse(50,50,30,30);
     pop();
   }
   rotateCreature(){
@@ -180,12 +174,7 @@ class preyCreature {
       ang=ang+3.14159;
     }
     var c = -ang;
-
-
     translate(this.x, this.y);
-    // console.log(c)
-    //apply the final rotation
-
     if (this.repulsed==0) {
       rotate(c);
       this.previousAngle=c;
@@ -195,6 +184,9 @@ class preyCreature {
     }
 
     ellipse(0, 0, this.size, this.size);
+    noFill();
+    stroke(255);
+
     fill(0);
     if (this.blink==0) {
       if(random()<.0005){
@@ -239,7 +231,6 @@ class preyCreature {
       var changeX = otherCreature.x - this.x;
       var changeY = otherCreature.y - this.y;
 
-      // move 5% of the way to the new creature
       this.dx += changeX * this.attractionStrength;
       this.dy += changeY * this.attractionStrength;
       this.neighbors++;
@@ -253,20 +244,15 @@ class preyCreature {
     var changeY;
     // are we within the atraction zone?
     if (this.repulsed!=0) {
-      // this.dx -= changeX * this.repulsionStrength;
-      // this.dy -= changeY * this.repulsionStrength;
       this.repulsed-=1;
     }
     if (d < this.repulsionZoneSize/2) {
-      // move toward this creature a little bit
       changeX = otherCreature.x - this.x;
       changeY = otherCreature.y - this.y;
 
-      // move 5% of the way to the new creature
       this.dx -= changeX * this.repulsionStrength;
       this.dy -= changeY * this.repulsionStrength;
       this.repulsed=this.repulseTime;
-      //otherCreature.repulsed=this.repulseTime;
     }
   }
   repulsePredator(otherCreature) {
@@ -276,7 +262,7 @@ class preyCreature {
     var changeY;
     // are we within the atraction zone?
     if (d < this.predatorRepulsionZoneSize) {
-      // move toward this creature a little bit
+      // move away from this creature a little bit
       changeX = otherCreature.x - this.x;
       changeY = otherCreature.y - this.y;
 
@@ -287,7 +273,6 @@ class preyCreature {
     }
     else{
       this.running=false;
-      //otherCreature.repulsed=this.repulseTime;
     }
   }
   repulsePlant(otherPlant) {
@@ -297,22 +282,16 @@ class preyCreature {
     var changeY;
     // are we within the atraction zone?
     if (this.repulsed!=0) {
-      // this.dx -= changeX * this.repulsionStrength;
-      // this.dy -= changeY * this.repulsionStrength;
       this.repulsed-=1;
     }
     if (d < otherPlant.size/1.5) {
       this.health=100;
       otherPlant.health-=10;
-      // move toward this creature a little bit
       changeX = otherPlant.x - this.x;
       changeY = otherPlant.y - this.y;
-
-      // move 5% of the way to the new creature
       this.dx -= changeX * this.plantRepulsionStrength;
       this.dy -= changeY * this.plantRepulsionStrength;
       this.repulsed=this.repulseTime;
-      //otherCreature.repulsed=this.repulseTime;
     }
   }
 }
